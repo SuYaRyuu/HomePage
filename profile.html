@@ -38,7 +38,7 @@
             cursor: none;
             position: relative; /* オーバーレイのために追加 */
         }
-
+        
         /* ローディングオーバーレイ */
         .loading-overlay {
             position: fixed;
@@ -51,7 +51,7 @@
             pointer-events: none; /* クリックを下の要素に通す */
             transition: background-color 0.5s ease;
         }
-
+        
         .loading-overlay.active {
             background-color: rgba(255, 255, 255, 1); /* 徐々に白く */
             pointer-events: auto; /* アニメーション中はクリックをブロック */
@@ -100,7 +100,7 @@
             width: 100%;
             height: 80px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-end; /* 右端に寄せる */
             align-items: center;
             padding: 0 40px;
             background-color: rgba(10, 10, 20, 0.5);
@@ -175,7 +175,7 @@
         .nav-menu.active a:nth-child(4) { transition-delay: 0.5s; }
 
         .content-container {
-            padding-top: 120px;
+            padding-top: 120px; /* ヘッダーの高さ分、下げる */
         }
 
         .page-title {
@@ -214,29 +214,29 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* プロフィール画像のコンテナ */
+        /* 画像コンテナを追加 */
         .profile-image-container {
             position: relative;
             display: inline-block;
             margin-bottom: 20px;
         }
 
-        /* プロフィール画像 */
         .profile-image-container img {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            border: 2px solid var(--accent-color);
+            border: 3px solid var(--accent-color);
             box-shadow: 0 0 30px var(--glow-color);
             opacity: 0;
-            transform: scale(0.9);
-            animation: popIn 0.8s var(--easing) forwards 1s;
-            transition: transform 0.3s ease-in-out;
+            transform: scale(0.5);
+            animation: popIn 1s var(--easing) forwards 1s;
+            transition: transform 0.4s ease;
         }
-        .profile-image-container img:hover {
-            transform: scale(1.02);
+        .profile-image-container img:hover { transform: scale(1.05); }
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
         }
-
+        
         /* 画像に重ねるラベル */
         .image-label {
             position: absolute;
@@ -253,7 +253,8 @@
             animation: fadeIn 0.5s forwards 1.5s;
         }
 
-        /* プロフィールセクションの共通スタイル */
+
+        /* New Stylish Profile Sections */
         .profile-section {
             margin-top: 40px;
             text-align: left;
@@ -334,18 +335,20 @@
     </header>
 
     <nav class="nav-menu" id="nav-menu">
-        <a href="index.html" id="homeLink">HOME</a>
-        <a href="#">PROFILE</a>
-        <a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">ACCOUNT</a>
-        <a href="#">DISCOGRAPHY</a>
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="profile.html" class="nav-link">PROFILE</a>
+        <a href="https://scratch.mit.edu/users/SuYaRyuu0826/" class="nav-link" target="_blank">ACCOUNT</a>
+        <a href="discography.html" class="nav-link">DISCOGRAPHY</a>
     </nav>
 
     <div class="content-container">
         <h1 class="page-title">PROFILE</h1>
         <div class="profile-content-wrapper">
             <main class="profile-content">
-                <div class="profile-image-container">
+                 <div class="profile-image-container">
                     <img src="https://raw.githubusercontent.com/SuYaRyuu/HomePage/main/156086418_60x60.png" alt="プロフィール画像">
+                    <div class="image-label">現在のアイコン</div>
+                </div>
 
                 <div class="profile-section">
                     <h3>基本情報</h3>
@@ -370,11 +373,10 @@
                 <div class="profile-section" style="animation-delay: 2.5s;">
                     <h3>得意なこと</h3>
                     <p>
-                        作詞作曲よくしてます！右上のメニューバーをクリックして、<a href="#">「DISCOGRAPHY」</a>から見ていってください！<br>
-                        プログラミングも得意です！このホームページも僕がコードを書いて作りました！<a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">Scratch</a>でプログラミングよくして、共有してるのでぜひ見てみてください！
+                        作詞作曲よくしてます！右上のメニューバーをクリックして、<a href="discography html">「DISCOGRAPHY」</a>から見ていってください！<br>
+                        プログラミングも得意です！<a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">Scratch</a>でプログラミングよくして、共有してるのでぜひ見てみてください！このホームページも僕がコードを書いて作りました！
                     </p>
                 </div>
-
             </main>
         </div>
     </div>
@@ -384,9 +386,9 @@
             const hamburger = document.getElementById('hamburger');
             const navMenu = document.getElementById('nav-menu');
             const cursorGlow = document.querySelector('.cursor-glow');
-            const homeLink = document.getElementById('homeLink');
+            const navLinks = document.querySelectorAll('.nav-link');
             const loadingOverlay = document.getElementById('loadingOverlay');
-
+            
             // --- Cursor Glow Effect ---
             document.addEventListener('mousemove', (e) => {
                 if (cursorGlow) {
@@ -400,14 +402,24 @@
                 hamburger.classList.toggle('active');
                 navMenu.classList.toggle('active');
             });
-
-            // --- Home Link Click Event with Fade Out ---
-            homeLink.addEventListener('click', (e) => {
-                e.preventDefault(); // デフォルトの遷移を防止
-                loadingOverlay.classList.add('active');
-                setTimeout(() => {
-                    window.location.href = homeLink.href; // アニメーション後に遷移
-                }, 500); // アニメーション時間と同じ
+            
+            // --- Nav Link Click Event with Fade Out Animation ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetUrl = link.getAttribute('href');
+                    
+                    // 外部サイトへのリンクは新しいタブで開く
+                    if (link.getAttribute('target') === '_blank') {
+                        window.open(targetUrl, '_blank');
+                    } else {
+                        // 内部リンクはアニメーション後に遷移
+                        loadingOverlay.classList.add('active');
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 500); // アニメーション時間（0.5秒）と同じ
+                    }
+                });
             });
         });
     </script>

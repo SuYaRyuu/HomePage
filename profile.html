@@ -233,7 +233,6 @@
             animation: fadeIn 0.5s forwards 1.5s;
         }
 
-
         .profile-section {
             margin-top: 40px;
             text-align: left;
@@ -291,6 +290,96 @@
         }
 
         @media (max-width: 768px) {
+            .cursor-glow { display: none; }
+            body { cursor: auto; }
+            .header { padding: 0 20px; }
+            .profile-content { padding: 30px; }
+            .profile-content img { width: 120px; height: 120px; }
+            .page-title { margin-top: 20px; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+
+    <header class="header">
+        <div class="hamburger" id="hamburger">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </header>
+
+    <nav class="nav-menu" id="nav-menu">
+        <a href="index.html">HOME</a>
+        <a href="profile.html">PROFILE</a>
+        <a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">ACCOUNT</a>
+        <a href="discography.html">DISCOGRAPHY</a>
+    </nav>
+
+    <div class="content-container">
+        <h1 class="page-title">PROFILE</h1>
+        <div class="profile-content-wrapper">
+            <main class="profile-content">
+                <div class="profile-image-container">
+                    <img src="https://raw.githubusercontent.com/SuYaRyuu/HomePage/main/156086418_60x60.png" alt="プロフィール画像">
+                    <div class="image-label">現在のアイコン</div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>基本情報</h3>
+                    <ul>
+                        <li><i class="fas fa-calendar-alt"></i> <strong>年齢:</strong> 15歳</li>
+                        <li><i class="fas fa-birthday-cake"></i> <strong>誕生日:</strong> 8月26日</li>
+                        <li><i class="fas fa-hand-holding-heart"></i> <strong>血液型:</strong> O型</li>
+                        <li><i class="fas fa-guitar"></i> <strong>趣味:</strong> 作詞・作曲</li>
+                        <li><i class="fas fa-male"></i> <strong>身長:</strong> 177cm</li>
+                        <li><i class="fas fa-venus-mars"></i> <strong>性別:</strong> 男</li>
+                    </ul>
+                </div>
+
+                <div class="profile-section" style="animation-delay: 2s;">
+                    <h3>好きな曲</h3>
+                    <p>
+                        Mrs. GREEN APPLE（ミセス）さんや、米津玄師さんの曲なら全部好きです！<br>
+                        特に好きなのは、ミセスなら<span style="color:var(--secondary-accent);">点描の唄</span>や<span style="color:var(--secondary-accent);">Soranji</span>、米津玄師さんなら、<span style="color:var(--secondary-accent);">アイネクライネ</span>や<span style="color:var(--secondary-accent);">海の幽霊</span>が特に大好きな曲です！
+                    </p>
+                </div>
+
+                <div class="profile-section" style="animation-delay: 2.5s;">
+                    <h3>得意なこと</h3>
+                    <p>
+                        作詞作曲よくしてます！右上のメニューバーをクリックして、<a href="discography.html">「DISCOGRAPHY」</a>から見ていってください！<br>
+                        プログラミングも得意です！<a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">Scratch</a>でプログラミングよくして、共有してるのでぜひ見てみてください！
+                    </p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            const cursorGlow = document.querySelector('.cursor-glow');
+
+            // --- Cursor Glow Effect ---
+            document.addEventListener('mousemove', (e) => {
+                if (cursorGlow) {
+                    cursorGlow.style.left = e.clientX + 'px';
+                    cursorGlow.style.top = e.clientY + 'px';
+                }
+            });
+
+            // --- Hamburger Menu Toggle ---
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>) {
             .cursor-glow { display: none; }
             body { cursor: auto; }
             .header { padding: 0 20px; }

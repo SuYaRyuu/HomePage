@@ -273,7 +273,7 @@
 
     <header class="header">
         <div class="marquee-container">
-            <span class="marquee">見に来てくれてありがとう！良ければいろいろ見てってね！</span>
+            <span class="marquee">かけるの公式ホームページです！見に来てくれてありがとう！良ければいろいろ見てってね！</span>
         </div>
         <div class="hamburger" id="hamburger">
             <div class="bar"></div>
@@ -290,6 +290,88 @@
     </nav>
     
     <div class="content-wrapper">
+        <main class="main-content">
+            <h1>かけるのホームページへようこそ！</h1>
+            <span id="time-display" class="time-display"></span>
+            <img src="https://raw.githubusercontent.com/SuYaRyuu/HomePage/main/156086418_60x60.png" alt="プロフィール画像">
+            <div class="message-section">
+                <h2 id="greeting"></h2>
+                <p>
+                    右上のメニューから他のページに移動できます！ぜひいろいろ見ていってください！<br>
+                    ウェブページのバグとかがあったら、Scratchのコメント欄とかで教えてください！
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            const timeDisplay = document.getElementById('time-display');
+            const greeting = document.getElementById('greeting');
+            const cursorGlow = document.querySelector('.cursor-glow');
+
+            // --- Cursor Glow Effect ---
+            // マウスの動きに合わせてカーソルを動かす
+            document.addEventListener('mousemove', (e) => {
+                if (cursorGlow) {
+                    cursorGlow.style.left = e.clientX + 'px';
+                    cursorGlow.style.top = e.clientY + 'px';
+                }
+            });
+
+            // --- Time and Greeting ---
+            // 時刻を更新する関数
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('ja-JP', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit', 
+                    hour12: false // 24時間表記にする
+                });
+                if (timeDisplay) { // 要素が存在するか確認
+                    timeDisplay.textContent = timeString;
+                }
+            }
+
+            // 挨拶メッセージを設定する関数
+            function setGreeting() {
+                const hour = new Date().getHours();
+                let message = '';
+                if (hour >= 5 && hour < 12) {
+                    message = 'おはよう！';
+                } else if (hour >= 12 && hour < 18) {
+                    message = 'こんにちは！';
+                } else {
+                    message = 'こんばんは！';
+                }
+                if (greeting) { // 要素が存在するか確認
+                    greeting.textContent = message;
+                }
+            }
+
+            // --- Hamburger Menu Toggle ---
+            // ハンバーガーメニューのクリックイベント
+            if (hamburger && navMenu) { // 要素が存在するか確認
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // --- Initialize ---
+            // ページ読み込み時に実行する
+            setGreeting();
+            updateClock();
+            setInterval(updateClock, 1000); // 1秒ごとに時刻を更新
+        });
+    </script>
+
+</body>
+</html>
+
         <main class="main-content">
             <h1>かけるのホームページへようこそ！</h1>
             <span id="time-display" class="time-display"></span>

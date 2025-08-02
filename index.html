@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-bg: #0a0a14;
@@ -35,6 +36,25 @@
             overflow-x: hidden;
             text-rendering: optimizeLegibility;
             cursor: none;
+            position: relative; /* オーバーレイのために追加 */
+        }
+
+        /* ローディングオーバーレイ */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0); /* 最初は透明 */
+            z-index: 1500;
+            pointer-events: none; /* クリックを下の要素に通す */
+            transition: background-color 0.5s ease;
+        }
+
+        .loading-overlay.active {
+            background-color: rgba(255, 255, 255, 1); /* 徐々に白く */
+            pointer-events: auto; /* アニメーション中はクリックをブロック */
         }
 
         /* Animated Aurora Background */
@@ -268,6 +288,7 @@
 </head>
 <body>
 
+    <div class="loading-overlay" id="loadingOverlay"></div>
     <div class="cursor-glow"></div>
 
     <header class="header">
@@ -282,17 +303,17 @@
     </header>
 
     <nav class="nav-menu" id="nav-menu">
-        <a href="#">HOME</a>
-        <a href="#">PROFILE</a>
-        <a href="https://scratch.mit.edu/users/SuYaRyuu0826/" target="_blank">ACCOUNT</a>
-        <a href="#">DISCOGRAPHY</a>
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="profile.html" class="nav-link">PROFILE</a>
+        <a href="account.html" class="nav-link" target="_blank">ACCOUNT</a>
+        <a href="discography.html" class="nav-link">DISCOGRAPHY</a>
     </nav>
     
     <div class="content-wrapper">
         <main class="main-content">
             <h1>かけるのホームページへようこそ！</h1>
             <span id="time-display" class="time-display"></span>
-            <img src="https://raw.githubusercontent.com/SuYaRyuu/HomePage/refs/heads/main/156086418_60x60.png" alt="プロフィール画像">
+            <img src="https://raw.githubusercontent.com/SuYaRyuu/HomePage/main/156086418_60x60.png" alt="プロフィール画像">
             <div class="message-section">
                 <h2 id="greeting"></h2>
                 <p>
@@ -310,6 +331,8 @@
             const timeDisplay = document.getElementById('time-display');
             const greeting = document.getElementById('greeting');
             const cursorGlow = document.querySelector('.cursor-glow');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loadingOverlay = document.getElementById('loadingOverlay');
 
             // --- Cursor Glow Effect ---
             document.addEventListener('mousemove', (e) => {
@@ -343,6 +366,25 @@
             hamburger.addEventListener('click', () => {
                 hamburger.classList.toggle('active');
                 navMenu.classList.toggle('active');
+            });
+            
+            // --- Nav Link Click Event with Fade Out Animation ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetUrl = link.getAttribute('href');
+
+                    // If the link is for an external site (e.g., Scratch), open in a new tab
+                    if (link.getAttribute('target') === '_blank') {
+                        window.open(targetUrl, '_blank');
+                    } else {
+                        // For internal links, apply animation and then navigate
+                        loadingOverlay.classList.add('active');
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 500); // アニメーション時間と同じ
+                    }
+                });
             });
 
             // --- Initialize ---
